@@ -10,7 +10,7 @@ if (dynamicText) {
   });
 }
 
-// Add scroll-triggered animations for timeline
+// Add scroll-triggered animations
 const timelineItems = document.querySelectorAll(".timeline-item");
 
 if ("IntersectionObserver" in window) {
@@ -37,15 +37,7 @@ if ("IntersectionObserver" in window) {
   });
 }
 
-// Initialize AOS (Animate on Scroll)
-AOS.init({
-  duration: 1000, // Animation duration
-  easing: 'ease-in-out', // Easing function
-  once: true, // Trigger animation only once
-});
-
-// Particles Background for Projects Section
-particlesJS("tsparticles", {
+particlesJS("particles-js", {
   particles: {
     number: { value: 80, density: { enable: true, value_area: 800 } },
     color: { value: "#ffffff" },
@@ -100,28 +92,46 @@ particlesJS("tsparticles", {
   retina_detect: true,
 });
 
-// Scroll-triggered animations for projects section
-const projectCards = document.querySelectorAll('.project-card');
-if ('IntersectionObserver' in window) {
-  const projectObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = "1";
-          entry.target.style.transform = "translateY(0)";
-        }
-      });
-    },
-    { threshold: 0.3 }
-  );
+// Select the container for the globe
+const globeContainer = document.getElementById("globe-container");
 
-  projectCards.forEach((item) => {
-    projectObserver.observe(item);
-  });
-} else {
-  // Fallback: Make all projects visible by default
-  projectCards.forEach((item) => {
-    item.style.opacity = "1";
-    item.style.transform = "translateY(0)";
-  });
+// Create a Three.js scene
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+const renderer = new THREE.WebGLRenderer({ alpha: true }); // Transparent background
+renderer.setSize(window.innerWidth, window.innerHeight);
+globeContainer.appendChild(renderer.domElement);
+
+// Create a sphere (globe)
+const geometry = new THREE.SphereGeometry(5, 32, 32);
+const material = new THREE.MeshBasicMaterial({
+  color: 0x0077ff,
+  wireframe: true, // Wireframe style
+});
+const globe = new THREE.Mesh(geometry, material);
+scene.add(globe);
+
+// Position the camera
+camera.position.z =  8;
+
+// Animation loop
+function animate() {
+  requestAnimationFrame(animate);
+  globe.rotation.y += 0.004; // Rotate the globe
+  renderer.render(scene, camera);
 }
+
+// Handle resizing
+window.addEventListener("resize", () => {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+});
+
+// Start the animation
+animate();
