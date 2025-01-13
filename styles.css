@@ -14,7 +14,7 @@ body {
 
 .container {
   text-align: center;
-  padding: 80px 20px; /* Padding adjusted for space below the navbar */
+  padding: 140px 20px; /* Increased padding to create space between navbar and text */
 }
 
 header {
@@ -26,6 +26,8 @@ h1 {
   color: white;
   margin-bottom: 20px;
   line-height: 1.2;
+  text-align: center; /* Ensures center alignment */
+  padding-left: 50px; /* Increased left padding for dynamic text */
 }
 
 h1 span {
@@ -134,7 +136,6 @@ section p {
   color: #bdbdbd;
 }
 
-/* Timeline Styles */
 /* Timeline Styles */
 .timeline {
   position: relative;
@@ -359,4 +360,38 @@ section p {
 
 .project-card a p strong {
   font-weight: bold;
+}
+
+/* Projects Section Styling */
+#projects {
+  position: relative;
+  padding: 2rem 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#globe-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.projects-grid {
+  position: relative;
+  z-index: 1; /* Ensures the project cards appear above the globe */
+}
+
+.project-card {
+  background: #1e1e1e; Optional semi-transparent background */
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.project-card:hover {
+  transform: scale(1.05);
 }
